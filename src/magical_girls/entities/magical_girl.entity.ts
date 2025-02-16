@@ -14,7 +14,7 @@ export class MagicalGirl {
   @Column({ type: 'varchar', length: 255 })
   origin_city: string;
 
-  @Column({ type: 'enum', enum: ['Active', 'disappeared', 'rescued'] })
+  @Column({ type: 'enum', enum: ['Active', 'Disappeared', 'Rescued'] })
   status: string;
 
   @Column({ type: 'date' })

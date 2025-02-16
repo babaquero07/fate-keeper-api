@@ -1,5 +1,5 @@
 import {
-  IsDate,
+  IsDateString,
   IsIn,
   IsNumber,
   IsString,
@@ -22,9 +22,9 @@ export class CreateMagicalGirlDto {
   origin_city: string;
 
   @IsString()
-  @IsIn(['active', 'disappear', 'rescued'])
+  @IsIn(['Active', 'Disappeared', 'Rescued'])
   status: string;
 
-  @IsDate()
+  @IsDateString()
   contract_date: Date;
 }
