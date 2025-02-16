@@ -1,4 +1,11 @@
-import { BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeUpdate,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { StatusLog } from 'src/status_logs/entities/status_log.entity';
 
 @Entity()
 export class MagicalGirl {
@@ -31,4 +38,8 @@ export class MagicalGirl {
   generatedUpdatedAt() {
     this.updated_at = new Date();
   }
+
+  // Relations
+  @OneToMany(() => StatusLog, (statusLog) => statusLog.magical_girl)
+  status_logs: StatusLog[];
 }
