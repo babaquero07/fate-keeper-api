@@ -61,6 +61,7 @@ export class MagicalGirlsService {
       where: {
         id,
       },
+      relations: ['status_logs'],
     });
 
     if (!magicalGirl)

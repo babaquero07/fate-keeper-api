@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MagicalGirlsModule } from './magical_girls/magical_girls.module';
+import { StatusLogsModule } from './status_logs/status_logs.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { MagicalGirlsModule } from './magical_girls/magical_girls.module';
       synchronize: true, // Don't use this in production
     }),
     MagicalGirlsModule,
+    StatusLogsModule,
   ],
 })
 export class AppModule {}

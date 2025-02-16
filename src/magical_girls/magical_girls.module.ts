@@ -8,5 +8,6 @@ import { MagicalGirl } from './entities/magical_girl.entity';
   controllers: [MagicalGirlsController],
   providers: [MagicalGirlsService],
   imports: [TypeOrmModule.forFeature([MagicalGirl])],
+  exports: [MagicalGirlsService],
 })
 export class MagicalGirlsModule {}
