@@ -49,10 +49,19 @@ export class MagicalGirlsController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
+  async update(
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateMagicalGirlDto: UpdateMagicalGirlDto,
   ) {
-    return this.magicalGirlsService.update(+id, updateMagicalGirlDto);
+    const magicalGirl = await this.magicalGirlsService.update(
+      id,
+      updateMagicalGirlDto,
+    );
+
+    return {
+      ok: true,
+      data: magicalGirl,
+      message: 'Magical girl updated successfully',
+    };
   }
 }

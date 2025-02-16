@@ -69,7 +69,26 @@ export class MagicalGirlsService {
     return magicalGirl;
   }
 
-  update(id: number, updateMagicalGirlDto: UpdateMagicalGirlDto) {
-    return `This action updates a #${id} magicalGirl`;
+  async update(id: number, updateMagicalGirlDto: UpdateMagicalGirlDto) {
+    const magicGirl = await this.magicalGirlRepository.preload({
+      id,
+      ...updateMagicalGirlDto,
+    });
+
+    if (!magicGirl)
+      throw new NotFoundException(`magical girl with id ${id} not found`);
+
+    try {
+      await this.magicalGirlRepository.save(magicGirl);
+
+      return magicGirl;
+    } catch (error) {
+      console.log('🚀 ~ MagicalGirlsService ~ update ~ error:', error);
+
+      this.handleDBErrors({
+        code: error.code,
+        detail: error.detail,
+      });
+    }
   }
 }
