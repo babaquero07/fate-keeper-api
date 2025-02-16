@@ -40,8 +40,16 @@ export class MagicalGirlsService {
     }
   }
 
-  findAll() {
-    return `This action returns all magicalGirls`;
+  async findAll(): Promise<MagicalGirl[]> {
+    try {
+      return await this.magicalGirlRepository.find();
+    } catch (error) {
+      console.log('🚀 ~ MagicalGirlsService ~ findAll ~ error:', error);
+      this.handleDBErrors({
+        code: error.code,
+        detail: error.detail,
+      });
+    }
   }
 
   findOne(id: number) {

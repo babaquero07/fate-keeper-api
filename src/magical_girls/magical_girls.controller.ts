@@ -21,8 +21,13 @@ export class MagicalGirlsController {
   }
 
   @Get()
-  findAll() {
-    return this.magicalGirlsService.findAll();
+  async findAll() {
+    const magicGirls = await this.magicalGirlsService.findAll();
+
+    return {
+      ok: true,
+      data: [...magicGirls],
+    };
   }
 
   @Get(':id')
