@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { MagicalGirlsService } from './magical_girls.service';
 import { CreateMagicalGirlDto } from './dto/create-magical_girl.dto';
 import { UpdateMagicalGirlDto } from './dto/update-magical_girl.dto';
@@ -31,8 +39,13 @@ export class MagicalGirlsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.magicalGirlsService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const magicalGirl = await this.magicalGirlsService.findOne(id);
+
+    return {
+      ok: true,
+      data: magicalGirl,
+    };
   }
 
   @Patch(':id')

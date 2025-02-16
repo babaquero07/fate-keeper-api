@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateMagicalGirlDto } from './dto/create-magical_girl.dto';
 import { UpdateMagicalGirlDto } from './dto/update-magical_girl.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -52,8 +56,17 @@ export class MagicalGirlsService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} magicalGirl`;
+  async findOne(id: number): Promise<MagicalGirl> {
+    const magicalGirl = await this.magicalGirlRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!magicalGirl)
+      throw new NotFoundException(`magical girl with id ${id} not found`);
+
+    return magicalGirl;
   }
 
   update(id: number, updateMagicalGirlDto: UpdateMagicalGirlDto) {
