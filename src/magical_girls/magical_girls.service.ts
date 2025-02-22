@@ -8,6 +8,7 @@ import { UpdateMagicalGirlDto } from './dto/update-magical_girl.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MagicalGirl } from './entities/magical_girl.entity';
 import { Repository } from 'typeorm';
+import { magicalGirls } from 'src/utils/data';
 
 @Injectable()
 export class MagicalGirlsService {
@@ -85,6 +86,23 @@ export class MagicalGirlsService {
       return magicGirl;
     } catch (error) {
       console.log('🚀 ~ MagicalGirlsService ~ update ~ error:', error);
+
+      this.handleDBErrors({
+        code: error.code,
+        detail: error.detail,
+      });
+    }
+  }
+
+  async seedBD() {
+    try {
+      const newMagicalGirls = await Promise.all(
+        magicalGirls.map(async (girl) => this.createMagicGirl(girl)),
+      );
+
+      return newMagicalGirls;
+    } catch (error) {
+      console.log('🚀 ~ MagicalGirlsService ~ seedBD ~ error:', error);
 
       this.handleDBErrors({
         code: error.code,

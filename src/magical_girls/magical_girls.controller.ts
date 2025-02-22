@@ -15,6 +15,17 @@ import { UpdateMagicalGirlDto } from './dto/update-magical_girl.dto';
 export class MagicalGirlsController {
   constructor(private readonly magicalGirlsService: MagicalGirlsService) {}
 
+  @Get('seed')
+  async seedDB() {
+    const data = await this.magicalGirlsService.seedBD();
+
+    return {
+      ok: true,
+      message: 'Database seeded successfully',
+      data,
+    };
+  }
+
   @Post()
   async create(@Body() createMagicalGirlDto: CreateMagicalGirlDto) {
     const magicGirl =
