@@ -3,7 +3,9 @@ import { AppModule } from './app.module';
 import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    cors: true,
+  });
 
   const PORT = process.env.PORT || 3000;
   const API_URL = process.env.API_URL || 'http://localhost';
