@@ -9,12 +9,15 @@ import { StatusLogsModule } from './status_logs/status_logs.module';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
-      port: +(process.env.DB_PORT ?? 5432),
-      username: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
+      url: process.env.DATABASE_URL,
       autoLoadEntities: true,
-      synchronize: true, // Don't use this in production
+      synchronize: false, // Don't use true value in production
+      ssl: true,
+      extra: {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      },
     }),
     MagicalGirlsModule,
     StatusLogsModule,
