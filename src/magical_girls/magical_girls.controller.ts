@@ -64,15 +64,15 @@ export class MagicalGirlsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updateMagicalGirlDto: UpdateMagicalGirlDto,
   ) {
-    const magicalGirl = await this.magicalGirlsService.update(
+    const updatedMagicalGirl = await this.magicalGirlsService.update(
       id,
       updateMagicalGirlDto,
     );
 
     return {
       ok: true,
-      data: magicalGirl,
       message: 'Magical girl updated successfully',
+      data: updatedMagicalGirl,
     };
   }
 }

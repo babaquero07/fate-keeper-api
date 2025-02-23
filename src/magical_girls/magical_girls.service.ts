@@ -71,26 +71,33 @@ export class MagicalGirlsService {
     return magicalGirl;
   }
 
-  async update(id: number, updateMagicalGirlDto: UpdateMagicalGirlDto) {
-    const magicGirl = await this.magicalGirlRepository.preload({
-      id,
-      ...updateMagicalGirlDto,
-    });
-
-    if (!magicGirl)
-      throw new NotFoundException(`magical girl with id ${id} not found`);
+  async update(
+    id: number,
+    updateMagicalGirlDto: UpdateMagicalGirlDto,
+  ): Promise<MagicalGirl | undefined> {
+    const magicalGirl = await this.findOne(id);
 
     try {
-      await this.magicalGirlRepository.save(magicGirl);
+      // Merge the updated fields with existing entity
+      const updatedMagicalGirl = this.magicalGirlRepository.merge(
+        magicalGirl,
+        updateMagicalGirlDto,
+      );
 
-      return magicGirl;
-    } catch (error) {
+      // Save the merged entity to trigger hooks like @BeforeUpdate
+      const savedMagicalGirl =
+        await this.magicalGirlRepository.save(updatedMagicalGirl);
+
+      return savedMagicalGirl;
+    } catch (error: unknown) {
       console.log('🚀 ~ MagicalGirlsService ~ update ~ error:', error);
 
-      this.handleDBErrors({
-        code: error.code,
-        detail: error.detail,
-      });
+      if (error instanceof Error) {
+        this.handleDBErrors({
+          code: (error as any).code,
+          detail: (error as any).detail,
+        });
+      }
     }
   }
 
