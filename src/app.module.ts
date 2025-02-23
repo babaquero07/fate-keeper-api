@@ -11,7 +11,7 @@ import { StatusLogsModule } from './status_logs/status_logs.module';
       type: 'postgres',
       url: process.env.DATABASE_URL,
       autoLoadEntities: true,
-      synchronize: true, // Don't use true value in production
+      synchronize: false, // Don't use true value in production
       ssl: true,
       extra: {
         ssl: {
